@@ -1,0 +1,163 @@
+WiRouter KeyRec
+
+ Author            Salvatore Fresta aka Drosophila
+ Website           http://www.salvatorefresta.net
+ Contact           salvatorefresta [at] gmail [dot] com
+
+X. INDEX
+
+ I.    ABOUT THE APPLICATION
+ II.   INSTALL
+ III.  HOW TO USE
+ IV.   HOW TO CALCULATE YOUR OWN MAGIC NUMBERS
+ V.    HOW TO UPDATE THE AGPF CONFIGURATION FILE
+
+
+I. ABOUT THE APPLICATION
+------------------------
+
+This work was borns from the research of wifiresearchers reverse engineers
+(wifiresearchers.wordpress.com). Overtime,  additional  support  has  been
+added  by  other  reverse  engineers.  By  using  this  application, it is
+possible to calculate  the default WPA   keys   used   by   the  supported
+routers such as  Telecom  Italia  AGPF,  Fastweb Pirelli,  Fastweb Telsey,
+Pirelli TeleTu/Tele 2 and Eircom Netopia.
+
+
+II. INSTALL
+-----------
+
+On MS Windows you need a compiler in order to compile the source. You  can
+use  gcc. Use the following steps to execute the sources compilation:
+
+1 - Download gcc from http://tdm-gcc.tdragon.net (please choose the correct
+    version for your architecture)
+
+2 - Install it
+
+3 - Extract the wirouterkeyrec's zip archive into the gcc directory
+    (default is C:\MinGW)
+
+4 - Execute Makefile_windows.bat
+
+Now you can see the executable: wirouterkeyrec.exe
+
+ATTENTION: the agpf_config.lst file must always be in the  same  directory
+where the executable is present
+
+
+III. HOW TO USE
+---------------
+
+Using  this  application is very simple. The  simplest  way is to pass the
+SSID(s) to the command line using the --ssid (-s) option:
+
+wirouterkeyrec.exe -s Alice-xxxxxxxx,FASTWEB-x-xxxxxxxxxxxx
+
+
+You can load the SSID(s) also from a file:
+
+wirouterkeyrec.exe -f essid_list_file
+
+
+Or from both file and command line:
+
+wirouterkeyrec.exe -s Alice-xxxxxxxx -f essid_list_file
+
+
+The specified file content layout must be the following:
+
+Alice-xxxxxxxx
+FASTWEB-x-xxxxxxxxxxxx
+eircomxxxxxxxx
+teletuxxxxxxx/MAC_ADDRESS (each byte separated by ":")
+
+
+WiRouter KeyRec  will search the configuration file for AGPF routers first
+of  all in the current directory and after  in the installation directory.
+It  will  do  the  same  research for  the  TeleTu configuration file. The
+default files are agpf_config.lst and teletu_config.lst. You  can  set  an
+alternative agpf/teletu configuration file  using  the -c/-t option:
+
+wirouterkeyrec -s Alice-xxxxxxxx -c config_file
+wirouterkeyrec -s teletu/00:23:8E:E5:28:C8 -t config_file
+
+
+You  can  obtain  more  information  using  the -d  and -v options.
+
+
+IV. HOW TO CALCULATE YOUR OWN MAGIC NUMBERS
+-------------------------------------------
+
+You can calculate the Magic Numbers by knowing the SSID, the Serial Number
+and the Mac Address of an AGPF router. The following is the correct syntax
+to use:
+
+wirouterkeyrec -m Alice-48230959/67903X0041857/00:23:8e:89:1f:ec
+
+
+The parameters must be separated by a slash (/). You can load a list also
+from a file:
+
+wirouterkeyrec -l file_name
+
+
+You can use three output options:
+
+The default format (does not require a parameter).
+
+-p: Printscreens the format used in the AGPF configuration file
+-w: Writes   the  calculated  Magic   Numbers   directly   in   the  AGPF
+    configuration file appendix
+
+You can use the -w option using the file name specified by the -c option.
+
+
+IV. HOW TO UPDATE THE AGPF CONFIGURATION FILE
+---------------------------------------------
+
+The  supported  router models are reported  in  the  magic  number's  list
+file (default: agpf_config.lst/teletu_config.lst).  You can upgrade easily
+your own list with information found on the internet.
+
+The string format for each AGPF model is the following:
+
+"MODEL,SERIAL_PART_ONE,K CONSTANT,Q CONSTANT"
+
+Example: "93X,69101,13,92398366,AA2F3C";
+
+93X      = All router models that begin with 93.
+69101    = A part of the serial number.
+13       = The K constant for this router's model.
+92398366 = The Q constant for this router's model.
+AA2F3C   = The first 3 bytes of the MAC Address Ethernet
+
+You can replace the content of the  agpf_config.lst  to   update the magic
+numbers's list.
+
+The string format for each Pirelli TeleTu/Tele 2 model is the following:
+
+WMAC FROM TO SN1 BASE INCR
+
+Example: 00:1C:A2 DA:E6:56 DB:48:69 74601 DAD231 3
+
+00:1C:A2 = The first three bytes of WiFi MAC Address
+DA:E6:56 = Start range
+DB:48:69 = End range
+74601    = Serial number
+DAD231   = Base
+3        = Increment
+
+You can replace the content of the teletu_config.lst  to  update the magic
+numbers's list.
+
+You can use the option -u to replace the content of the configuration file
+with  the  page  specified  by the -a option:
+
+wirouterkeyrec -a "http://www.foo.com/agpf_list.txt" -u
+wirouterkeyrec -o "http://www.foo.com/teletu_list.txt" -u
+
+You can use only the option -u to update the list from the default pages:
+
+wirouterkeyrec -u
+

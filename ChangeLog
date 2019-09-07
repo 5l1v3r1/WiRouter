@@ -1,0 +1,48 @@
+24 November 2010
+
+  * Bug fixed for the Fastweb Telsey router models.
+
+11 January 2011
+
+  * Added the support for two new families of Pirelli.
+
+16 January 2011
+
+  * Updated the website from where the AGPF configuration file is downloaded from.
+
+15 April 2011
+
+  * Updated the website from where the AGPF configuration file is downloaded from.
+
+22 April 2011
+
+  * Bug fixed in pirelli.c - Include 0x0A in the condition at line 78.
+
+16 June 2011
+
+  * Floating Point Exception bug fixed in agpf.c (agpf_get_config function) - Added a control for the 0x23 byte in the main cycle.
+
+20 June 2011
+
+   * Added the support for Ericom Netopia router models.
+
+30 June 2011
+
+   * Added the function for calculating the Magic Numbers of AGPF router models.
+   * Printing of WEP key for AGPF router models.
+
+6 October 2011
+
+   * Added the support for TeleTu/Tele 2 router models.
+
+8 October 2011
+
+   * Reconfiguration of the software using autoconf and automake.
+
+5 January 2012
+
+   * Bug fixed in wirouterkeyrec.c - NULL pointer on malformed input list
+
+13 December 2012
+
+   * Bug fixed in agpf.c and teletu.c - Calloc instead of Malloc in order to prevent crashes on Windows
